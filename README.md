@@ -1,2 +1,3 @@
 # Logic-Prog-C
-C
+
+Repositório dedicado aos meus estudos de C, durante meus estudos.
