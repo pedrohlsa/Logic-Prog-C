@@ -1,3 +1,9 @@
+# Logic-Prog-C
+
+Repositório dedicado aos meus códigos de C, durante meus estudos.
+
+## Descrição dos Projetos
+
 ### Chess Project
 Focado no desenvolvimento de lógica para simuladores de xadrez.
 - xadrez_recursivo.c: Simula a movimentação de peças usando o conceito de recursividade para otimizar chamadas.
