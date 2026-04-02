@@ -32,7 +32,7 @@ int main() {
         densidade2 = (float)populacao2 / area2;
         pibpercapita2 = pib2 / (float)populacao2;
 
-        printf("\n1. Duelo Geral / 2. Atributo Unico\n");
+        printf("\n1. Duelo Geral\n");
         scanf("%d", &opcao2);
 
         if(opcao2 == 1) {
