@@ -14,6 +14,8 @@ Chess Project:
   simulador_xadrez2.0.c:
   Melhor uso da função recursividade, evitando muitas repetições no código. Com a função do-while com uma variável bool, repetindo o loop ate o usuario escolher sair do jogo.
 
+
+
 Basic Algorithms:
   calculos_medias.c:
   Um dos meus primeiros projetos, utiliza funções básicas para calcular médias escolares e verificar status de aprovação.
