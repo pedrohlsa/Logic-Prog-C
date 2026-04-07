@@ -58,8 +58,8 @@ void posicionar_navio() {
 void regras(){
     printf("\n---As regras do jogo sao:\n");
     printf("1- 0 representa agua e 3 representa os navios.\n");
-    printf("2- Cada navio ocupa 3 zeros.\n");
-    printf("3- Voce pode posicionar o navio na horizontal.\n");
+    printf("2- Cada navio ocupa 3 casas..\n");
+    printf("3- Voce pode posicionar o navio na horizontal e ou na vertical.\n");
     printf("4- O oponente posicionara tambem, mas voce nao os vera.\n");
     printf("5- O espaço para posicionar os navios é de 10x10, seja, de 1 ate 10 na vertical, e, 'A' até 'J' na horizontal.");
 }
