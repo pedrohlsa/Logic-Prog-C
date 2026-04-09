@@ -8,6 +8,7 @@ int main(){
             char impar;
             if (matriz [i][j] % 3 == 0){
                 printf("impar.");
+                printf("\nImpar foi encontrado na posicao: (%d,%d)\n", i,j);
             } else{
             printf("%d ", matriz[i][j]);
             }
