@@ -5,7 +5,7 @@ Repositório dedicado aos meus estudos em Linguagem C, focado em lógica de prog
 ## Descrição dos Projetos
 
 ### Basic Algorithms
-Fundamentos e exercícios de fixação de lógica e matriz.
+- Fundamentos e exercícios de fixação de lógica e matriz.
 
 ### Battleship-Game
 Focado no desenvolvimnto lógica e matrizes bidimensionais.
