@@ -5,7 +5,11 @@ Repositório dedicado aos meus estudos em Linguagem C, focado em lógica de prog
 ## Descrição dos Projetos
 
 ### Basic Algorithms
-- Fundamentos e exercícios de fixação de lógica e matriz.
+- Fundamentos e exercícios de fixação de lógica, matriz e struct.
+
+### Library-CRUD
+Sistema de gerenciamento de acervo focado em operações fundamentais de persistência em memória e manipulação de registros.
+-Library.c: Implementação de um CRUD, utilizando Estruturas para agrupamento de dados. Tratamento de buffer de entrada. Uso de strcspn para limpeza de caracteres de nova linha.
 
 ### Battleship-Game
 Focado no desenvolvimnto lógica e matrizes bidimensionais.
