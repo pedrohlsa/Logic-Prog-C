@@ -1,0 +1,9 @@
+#include <stdio.h>
+
+int main(){
+    struct No{
+        int dado;
+        struct no* proximo;
+    };
+}
+// futuramente pointers
