@@ -39,7 +39,8 @@ void vetor(){
     //***jeito certo***// 
     free(a); // limpando o espaco alocado
     a = &b; // agora sim, espaco A ja limpo, recebe o mesmo endereco de B.
-    
+
+    // tomar cuidado com isso, possivel vazamento de memoria, lentidao e instabilidade no programa.
 }
 
 void teste()
