@@ -5,7 +5,7 @@ Repositório dedicado aos meus estudos em Linguagem C, focado em lógica de prog
 ## Descrição dos Projetos
 
 ### Basic Algorithms
-- Fundamentos e exercícios de fixação de lógica, matriz e struct.
+- Fundamentos e exercícios de fixação de lógica, matriz, struct e pointers.
 
 ### Library-CRUD
 Sistema de gerenciamento de acervo focado em operações fundamentais de persistência em memória e manipulação de registros.
