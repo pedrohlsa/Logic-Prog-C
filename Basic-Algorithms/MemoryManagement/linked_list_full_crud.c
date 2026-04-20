@@ -1,89 +1,127 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
+#include <stdlib.h>
 
-#define tam 50
+typedef struct Node {
+    char* data;
+    struct Node* next;
+} Node;
 
-typedef struct No {
-    char* dados;
-    struct No* proximo;
-} No;
-
-No* inserirNo(No* list, char* texto) {
-    No* novo = (No*)malloc(sizeof(No));
-    novo->dados = (char*)malloc(strlen(texto) + 1);
-
-    if (novo->dados != NULL) {
-        strcpy(novo->dados, texto);
-    }
-    novo->proximo = list;
-    return novo;
+Node* insertNode(Node* head, const char* text) {
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    if (newNode == NULL) return head;
+    newNode->data = (char*)malloc(strlen(text) + 1);
+    if (newNode->data == NULL) { free(newNode); return head; }
+    strcpy(newNode->data, text);
+    newNode->next = head;
+    return newNode;
 }
 
-void listarNo(No* list) {
-    No* atual = list;
-    while (atual != NULL) {
-        printf("\nTexto: %s", atual->dados);
-        atual = atual->proximo;
+Node* reverseList(Node* head) {
+    Node* previous = NULL;
+    Node* current = head;
+    Node* nextNode = NULL;
+
+    while (current != NULL) {
+        nextNode = current->next; // salva o prox
+        current->next = previous; // inverte dirc q ta apontando
+        previous = current;       // move anterior po atual 
+        current = nextNode;       // move o atual p salvar
     }
-    printf("\n");
+    return previous; //retorna a nova cabeça da lista
 }
 
-
-No* limparNo(No* list, char* text) {
-    No* anterior = NULL;
-    No* atual = list;
-
-   
-    while (atual != NULL && strcmp(atual->dados, text) != 0) {
-        anterior = atual;
-        atual = atual->proximo;
+Node* removeNode(Node* head, const char* text) {
+    Node* current = head;
+    Node* previous = NULL;
+    while (current != NULL && strcmp(current->data, text) != 0) {
+        previous = current;
+        current = current->next;
     }
+    if (current == NULL) { printf("Node not found!\n"); return head; }
+    if (previous == NULL) head = current->next;
+    else previous->next = current->next;
+    free(current->data);
+    free(current);
+    printf("Successfully removed!\n");
+    return head;
+}
 
-
-    if (atual == NULL) {
-        printf("Dado nao encontrado!\n");
-        return list;
+void printList(Node* head) {
+    Node* current = head;
+    if (current == NULL) { printf("The list is empty.\n"); return; }
+    while (current != NULL) {
+        printf("- %s\n", current->data);
+        current = current->next;
     }
+    printf("------------------\n");
+}
 
-
-    if (anterior == NULL) {
-        list = atual->proximo;
-    } else {
-      
-        anterior->proximo = atual->proximo;
+void freeList(Node* head) {
+    Node* temp;
+    while (head != NULL) {
+        temp = head;
+        head = head->next;
+        free(temp->data);
+        free(temp);
     }
+}
 
-    free(atual->dados);
-    free(atual);
-    printf("No Removido com sucesso!\n");
+void clearBuffer() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
 
-    return list;
+// --- MENU ---
+
+Node* runMenu(Node* head) {   
+    int choice = 0;
+    char buffer[100];
+
+    while (choice != 4) {
+        printf("\n1. Insert\n2. Remove\n3. List\n4. Exit\nSelection: ");
+        if (scanf("%d", &choice) != 1) break;
+        clearBuffer();
+
+        switch (choice) {
+            case 1:
+                printf("Enter text: ");
+                fgets(buffer, 100, stdin);
+                buffer[strcspn(buffer, "\n")] = '\0';
+                head = insertNode(head, buffer);
+                break;
+            case 2:
+                printf("Enter text to remove: ");
+                fgets(buffer, 100, stdin);
+                buffer[strcspn(buffer, "\n")] = '\0';
+                head = removeNode(head, buffer);
+                break;
+            case 3:
+                head = reverseList(head); 
+                printList(head);          
+                head = reverseList(head); 
+                break;
+            case 4:
+                printf("Exiting...\n");
+                freeList(head);
+                head = NULL;
+                break;
+            default:
+                printf("Invalid option!\n");
+        }
+    }
+    return head;
 }
 
 int main() {
-    No* list = NULL;
-    char buffer[tam];
+    Node* list = NULL;
+    int choice;
 
-    for (int i = 0; i < 2; i++) {
-        printf("Insira sua string: ");
-        fgets(buffer, tam, stdin);
-        buffer[strcspn(buffer, "\n")] = '\0';
-        list = inserirNo(list, buffer);
-    }
-
-    printf("\nLista antes da exclusao:");
-    listarNo(list);
-
-    printf("\nEscreva qual dado voce quer excluir: ");
-    fgets(buffer, tam, stdin);
-    buffer[strcspn(buffer, "\n")] = '\0';
+    printf("Welcome!\n1. Start\n2. Exit\nSelection: ");
     
-    list = limparNo(list, buffer);
-
-    printf("\nLista depois da exclusao:");
-    listarNo(list);
-
+    if (scanf("%d", &choice) != 1) return 0;
+    clearBuffer();
+    if (choice == 1) list = runMenu(list);
     
     return 0;
 }
