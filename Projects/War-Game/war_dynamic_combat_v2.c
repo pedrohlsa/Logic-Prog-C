@@ -14,6 +14,13 @@ typedef struct Territorio
 } Territorio;
 
 
+
+void limparBufferEntrada()
+{
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
+
 Territorio* inserirTerritorio(Territorio* list, const char* nomeTer, const char* nomeTro, const char* tipoTro, int numbers)
 {
     Territorio* newT = (Territorio*)malloc(sizeof(Territorio));
@@ -22,8 +29,8 @@ Territorio* inserirTerritorio(Territorio* list, const char* nomeTer, const char*
     newT->nomeTerritorio = (char*)malloc(strlen(nomeTer) + 1);
     strcpy(newT->nomeTerritorio, nomeTer);
 
-    newT->tropas = (char*)malloc(strlen(tipoTro) + 1);
-    strcpy(newT->tropas, tipoTro);
+    newT->tropas = (char*)malloc(strlen(nomeTro) + 1);
+    strcpy(newT->tropas, nomeTro);
 
     newT->tipos = (char*)malloc(strlen(tipoTro) + 1);
     strcpy(newT->tipos, tipoTro);
@@ -34,12 +41,23 @@ Territorio* inserirTerritorio(Territorio* list, const char* nomeTer, const char*
     return newT;
 }
 
+Territorio* buscarterritorio(Territorio* list, const char* nome)
+{
+    Territorio* atual = list;
+    while (atual != NULL)
+    {
+        if(strcmp(atual->nomeTerritorio, nome) == 0) return atual;
+        atual = atual->proximo;
+    }
+    return NULL;
+}
+
 Territorio* removerTerritorio(Territorio* list, char* text)
 {
     Territorio* current = list;
     Territorio* before = NULL;
 
-    while (current != NULL && strcmp(current->tropas, text) != 0)
+    while (current != NULL && strcmp(current->nomeTerritorio, text) != 0)
     {
         before = current;
         current = current->proximo;
@@ -51,14 +69,8 @@ Territorio* removerTerritorio(Territorio* list, char* text)
         return list;
     }
 
-    if (before == NULL) 
-    {
-        list = current->proximo;
-    } 
-    else 
-    {
-        before->proximo = current->proximo;
-    }
+    if (before == NULL) list = current->proximo;
+    else before->proximo = current->proximo;
 
     free(current->nomeTerritorio);
     free(current->tropas);
@@ -68,98 +80,74 @@ Territorio* removerTerritorio(Territorio* list, char* text)
     return list;
 }
 
-void freeTotal(Territorio* list)
-{
-    Territorio* atual = list;
-    while (atual != NULL)
-    {   
-        Territorio* prox = atual->proximo;
-        free(atual->nomeTerritorio);
-        free(atual->tropas);
-        free(atual->tipos);
-        free(atual);
-        atual = prox;
-    }
-}
-
 void listarTerritorios(Territorio* list)
 {
-    Territorio* head = list;
-
-    if (head == NULL)
+    if (list == NULL)
     {
-        printf("\nNenhum territorio encontrado!\n");
+        printf("\nNenhum territorio cadastrado!\n");
         return;
     }
 
     printf("\n--- LISTA DE TERRITORIOS ---\n");
-    while (head != NULL)
+    while (list != NULL)
     {   
-        printf("Nome do territorio: %s | ", head->nomeTerritorio);
-        printf("Nome da tropa: %-15s | Tipo da tropa: %-15s | Quantidade: %d\n", head->tropas, head->tipos, head->quantias);
-        head = head->proximo;
+        printf("Territorio: %-10s | Tropa: %-10s | Tipo: %-10s | Qtd: %d\n", 
+               list->nomeTerritorio, list->tropas, list->tipos, list->quantias);
+        list = list->proximo;
     }
-    printf("----------------------------\n");
 }
 
-
-void limparBufferEntrada()
+void freeTotal(Territorio* list)
 {
-    int c;
-    while ((c = getchar()) != '\n' && c != EOF);
-}
-
-Territorio* buscarterritorio(Territorio* list, char* nome)
-{
-    Territorio* atual = list;
-    while (atual != NULL)
-    {
-        if(strcmp(atual->nomeTerritorio,nome) == 0)
-        {
-            return atual;
-        }
-        atual = atual->proximo;
+    while (list != NULL)
+    {   
+        Territorio* prox = list->proximo;
+        free(list->nomeTerritorio);
+        free(list->tropas);
+        free(list->tipos);
+        free(list);
+        list = prox;
     }
-    return NULL;
 }
 
 void realizarBatalha(Territorio* list)
 {
     char nomeAtacante[BUFFER_TAM], nomeDefensor[BUFFER_TAM];
 
-    printf("Digite o territorio que vai atacar: ");
+    printf("Digite o territorio atacante: ");
     fgets(nomeAtacante, BUFFER_TAM, stdin);
     nomeAtacante[strcspn(nomeAtacante, "\n")] = '\0';
 
-    printf("Digite o territorio que vai defender: ");
+    printf("Digite o territorio defensor: ");
     fgets(nomeDefensor, BUFFER_TAM, stdin);
     nomeDefensor[strcspn(nomeDefensor, "\n")] = '\0';
 
     Territorio* atacante = buscarterritorio(list, nomeAtacante);
     Territorio* defensor = buscarterritorio(list, nomeDefensor);
-    
-    if(atacante == NULL || defensor == NULL)
-    {
-        printf("Erro: Um dos territorios nao foi encontrado!");
-        return;
-    } 
-    printf("----Conflito %s vs %s ----\n", atacante->nomeTerritorio, defensor->nomeTerritorio);
 
-    if (atacante->quantias > defensor->quantias)
+    if (atacante == NULL || defensor == NULL)
     {
-        printf("O atacante %s venceu!", atacante->nomeTerritorio);
-    } else 
-    {
-        printf("O defensor %s venceu!", defensor->nomeTerritorio);
+        printf("\nErro: Um dos territorios nao existe!\n");
+        return;
     }
+
+    printf("\n--- CONFLITO: %s vs %s ---\n", atacante->nomeTerritorio, defensor->nomeTerritorio);
+    if (atacante->quantias > defensor->quantias) {
+        printf("Atancate %s venceu!\n", atacante->nomeTerritorio);
+    } else if (atacante->quantias < defensor->quantias) {
+        printf("Defensor %s venceu!\n", nomeDefensor);
+    } else {
+    printf("EMPATE: As forças se anularam!\n");
 }
+}
+
 void menuJogo()
 {
     Territorio* list = NULL;
     int op;
     
     do {
-        printf("\n1. Inserir tropas\n2. Remover tropas\n3. Listar tropas\n4. Batalhar\n0. Sair do Menu\nOpcao: ");
+        printf("\n[ MENU DE GUERRA ]\n1. Inserir Territorio\n2. Remover Territorio\n3. Listar Tropas\n4. Batalhar\n0. Voltar ao Inicio\nOpcao: ");
         if (scanf("%d", &op) != 1) {
             limparBufferEntrada();
             continue;
@@ -169,86 +157,72 @@ void menuJogo()
         switch (op)
         {
             case 1: {
-                int qnt_novos;
-                printf("Quantos territorios deseja criar? ");
-                scanf("%d", &qnt_novos);
+                char nomeTer[BUFFER_TAM], nomeTro[BUFFER_TAM], tipoTro[BUFFER_TAM];
+                int q_tropas;
+
+                printf("\nNome do territorio: ");
+                fgets(nomeTer, BUFFER_TAM, stdin);
+                nomeTer[strcspn(nomeTer, "\n")] = '\0';
+
+                printf("Nome da tropa (ex: Cavalaria): ");
+                fgets(nomeTro, BUFFER_TAM, stdin);
+                nomeTro[strcspn(nomeTro, "\n")] = '\0';
+
+                printf("Tipo da tropa (ex: Terrestre): ");
+                fgets(tipoTro, BUFFER_TAM, stdin);
+                tipoTro[strcspn(tipoTro, "\n")] = '\0';
+
+                printf("Quantidade: ");
+                scanf("%d", &q_tropas);
                 limparBufferEntrada();
-               
-                for (int i = 0; i < qnt_novos; i++)
-                {   
-                    char nomeTer[BUFFER_TAM], nomeTro[BUFFER_TAM], tipoTro[BUFFER_TAM];
-                    int q_tropas;
-                    printf("\nNome do territorio: : ", i + 1);
-                    fgets(nomeTer, BUFFER_TAM, stdin);
-                    nomeTer[strcspn(nomeTer, "\n")] = '\0';
 
-                    printf("\nNome da tropa: ", i + 1);
-                    fgets(nomeTro, BUFFER_TAM, stdin);
-                    nomeTro[strcspn(nomeTro, "\n")] = '\0';
-
-                    printf("\nTipo da tropa: ", i + 1);
-                    fgets(tipoTro, BUFFER_TAM, stdin);
-                    tipoTro[strcspn(tipoTro, "\n")] = '\0';
-
-                    printf("Quantidade de tropas: ");
-                    scanf("%d", &q_tropas);
-                    limparBufferEntrada(); 
-
-                    list = inserirTerritorio(list, nomeTer, nomeTro, tipoTro, q_tropas);
-                }
-                printf("\nTerritorios inseridos!\n");
+                list = inserirTerritorio(list, nomeTer, nomeTro, tipoTro, q_tropas);
+                printf("Territorio adicionado!\n");
                 break;
             }
-            case 2:
+            case 2: {
                 char buffer[BUFFER_TAM];
-                printf("Nome do territorio para remover: ");
+                printf("Qual territorio deseja remover? ");
                 fgets(buffer, BUFFER_TAM, stdin);
                 buffer[strcspn(buffer, "\n")] = '\0';
                 list = removerTerritorio(list, buffer);
                 break;
+            }
             case 3:
                 listarTerritorios(list);
                 break;
             case 4:
-                if (list == NULL) 
+                if (list == NULL || list->proximo == NULL) 
                 {
-                    printf("Adicione tropas para poder jogar!");
-                }else
-                {
+                    printf("\nVoce precisa de pelo menos 2 territorios para lutar!\n");
+                } else {
                     realizarBatalha(list);
                 }
                 break;
             case 0: 
                 freeTotal(list);
-                printf("Limpando dados e voltando...\n");
+                printf("Limpando memoria e voltando...\n");
                 break;
             default:
                 printf("Opcao invalida!\n");
         } 
-    } while (op != 4);
+    } while (op != 0); 
 }
 
 int main()
 {
     int op;
-
     do {
-        printf("\n=== GUERRA (WAR) ===\n");
-        printf("1. Gerenciar Tropas/Batalhar\n0. Sair\nOpcao: ");
-        scanf("%d", &op);
+        printf("\n=== WAR SYSTEM ===\n");
+        printf("1. Entrar no Menu de Tropas\n0. Sair do Jogo\nOpcao: ");
+        if (scanf("%d", &op) != 1) {
+            limparBufferEntrada();
+            continue;
+        }
         limparBufferEntrada();
 
-        switch (op)
-        {
-            case 1:
-                menuJogo();       
-                break;
-            case 0:
-                printf("Saindo do jogo...\n");
-                break;
-            default:
-                printf("Opcao invalida!\n");
-        }
+        if (op == 1) menuJogo();
+        
     } while (op != 0);
 
     return 0;
