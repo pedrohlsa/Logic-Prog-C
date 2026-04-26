@@ -95,7 +95,7 @@ int main(){
     temp = meuRanking;
     for(int i = 0; i < n; i++){
         strcpy(v[i].nome, temp->nomeRanking);
-        temp = temp->next; // esqueci disso aq
+        temp = temp->next; 
     }
 
     qsort(v, n, sizeof(*v), comparar); 
