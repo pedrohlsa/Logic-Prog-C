@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define tamanho 10
+#define tamanho 10000
 
 void gerarListaOrdenada(int lista[], int n);
 void gerarListaInversa(int lista[], int n);
@@ -10,102 +10,89 @@ void gerarListaAleatoria(int lista[], int n);
 void bubbleSort(int lista[], int n);
 void insertionSort(int lista[], int n);
 void selectionSort(int lista[], int n);
-void imprimirLista(const char* titulo, const int lista[], int n);
 void copiarLista(int destino[], const int origem[], int n);
 
 int main(){
     srand(time(NULL));
     clock_t t;
 
-    int listaOrdenada[tamanho];
-    int listaInversa[tamanho];
-    int listaAleatoria[tamanho];
-    int listaTemp[tamanho];
+    int *listaOrdenada = malloc(tamanho * sizeof(int));
+    int *listaInversa = malloc(tamanho * sizeof(int));
+    int *listaAleatoria = malloc(tamanho * sizeof(int));
+    int *listaTemp = malloc(tamanho * sizeof(int));
 
-    printf("--- Gerando listas de entrada ---\n");
+    printf("--- Gerando listas de entrada (%d elementos) ---\n", tamanho);
     gerarListaOrdenada(listaOrdenada, tamanho);
     gerarListaInversa(listaInversa, tamanho);
     gerarListaAleatoria(listaAleatoria, tamanho);
-    printf("---------------------------------\n\n");
+    printf("------------------------------------------------\n\n");
 
-    // === 1. BUBBLE SORT ===
-    printf("======== 1. Bubble Sort ======\n");
+    printf("======== 1. Bubble Sort ========\n");
     
     copiarLista(listaTemp, listaOrdenada, tamanho);
     t = clock();
     bubbleSort(listaTemp, tamanho);
-    t = clock() - t;
-    printf("Melhor caso: %f s\n", (double)t/CLOCKS_PER_SEC);
+    printf("Melhor caso: %f s\n", (double)(clock() - t) / CLOCKS_PER_SEC);
 
     copiarLista(listaTemp, listaInversa, tamanho);
     t = clock();
     bubbleSort(listaTemp, tamanho);
-    t = clock() - t;
-    printf("Pior Caso:   %f s\n", (double)t/CLOCKS_PER_SEC);
+    printf("Pior Caso:   %f s\n", (double)(clock() - t) / CLOCKS_PER_SEC);
 
     copiarLista(listaTemp, listaAleatoria, tamanho);
     t = clock();
     bubbleSort(listaTemp, tamanho);
-    t = clock() - t;
-    printf("Caso medio:  %f s\n\n", (double)t/CLOCKS_PER_SEC);
+    printf("Caso medio:  %f s\n\n", (double)(clock() - t) / CLOCKS_PER_SEC);
 
-    // === 2. INSERTION SORT ===
-    printf("=========== 2. Insertion Sort ===========\n");
+    printf("======== 2. Insertion Sort ========\n");
     
     copiarLista(listaTemp, listaOrdenada, tamanho);
     t = clock();
     insertionSort(listaTemp, tamanho);
-    t = clock() - t;
-    printf("Melhor caso: %f s\n", (double)t/CLOCKS_PER_SEC);
+    printf("Melhor caso: %f s\n", (double)(clock() - t) / CLOCKS_PER_SEC);
 
     copiarLista(listaTemp, listaInversa, tamanho);
     t = clock();
     insertionSort(listaTemp, tamanho);
-    t = clock() - t;
-    printf("Pior Caso:   %f s\n", (double)t/CLOCKS_PER_SEC);
+    printf("Pior Caso:   %f s\n", (double)(clock() - t) / CLOCKS_PER_SEC);
 
     copiarLista(listaTemp, listaAleatoria, tamanho);
     t = clock();
     insertionSort(listaTemp, tamanho);
-    t = clock() - t;
-    printf("Caso medio:  %f s\n\n", (double)t/CLOCKS_PER_SEC);
+    printf("Caso medio:  %f s\n\n", (double)(clock() - t) / CLOCKS_PER_SEC);
 
-    // === 3. SELECTION SORT ===
-    printf("=========== 3. Selection Sort ===========\n");
+    printf("======== 3. Selection Sort ========\n");
     
     copiarLista(listaTemp, listaOrdenada, tamanho);
     t = clock();
     selectionSort(listaTemp, tamanho);
-    t = clock() - t;
-    printf("Melhor caso: %f s\n", (double)t/CLOCKS_PER_SEC);
+    printf("Melhor caso: %f s\n", (double)(clock() - t) / CLOCKS_PER_SEC);
 
     copiarLista(listaTemp, listaInversa, tamanho);
     t = clock();
     selectionSort(listaTemp, tamanho);
-    t = clock() - t;
-    printf("Pior Caso:   %f s\n", (double)t/CLOCKS_PER_SEC);
+    printf("Pior Caso:   %f s\n", (double)(clock() - t) / CLOCKS_PER_SEC);
 
     copiarLista(listaTemp, listaAleatoria, tamanho);
     t = clock();
     selectionSort(listaTemp, tamanho);
-    t = clock() - t;
-    printf("Caso medio:  %f s\n", (double)t/CLOCKS_PER_SEC);
+    printf("Caso medio:  %f s\n", (double)(clock() - t) / CLOCKS_PER_SEC);
+
+    free(listaOrdenada);
+    free(listaInversa);
+    free(listaAleatoria);
+    free(listaTemp);
 
     return 0;
 }
+
 
 void copiarLista(int destino[], const int origem[], int n){
     for (int i = 0; i < n; i++) destino[i] = origem[i];
 }
 
-void imprimirLista(const char* titulo, const int lista[], int n){
-    printf("%-20s: [ ", titulo);
-    for (int i = 0; i < n; i++) printf("%d ", lista[i]);
-    printf("]\n");
-}
-
 void gerarListaOrdenada(int lista[], int n){
-    for (int i = 0; i < n; i++) lista[i] = i + 1;
+    for (int i = 0; i < n; i++) lista[i] = i;
 }
 
 void gerarListaInversa(int lista[], int n){
@@ -113,7 +100,7 @@ void gerarListaInversa(int lista[], int n){
 }
 
 void gerarListaAleatoria(int lista[], int n){
-    for (int i = 0; i < n; i++) lista[i] = rand() % 100;
+    for (int i = 0; i < n; i++) lista[i] = rand() % 10000;
 }
 
 void bubbleSort(int lista[], int n){
