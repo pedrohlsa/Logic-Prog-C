@@ -143,7 +143,7 @@ int main() {
         if (scanf("%d", &op) != 1) {
             printf("\n[!] Erro: Opcao invalida. Use apenas numeros.\n");
             limparBufferEntrada();
-            continue; // Em vez de return -1, ele volta pro começo do loop
+            continue; 
         }
         limparBufferEntrada();
 
