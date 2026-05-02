@@ -32,7 +32,7 @@ void insertVetor(Vetor** v, int* quantidade) {
     limparBufferEntrada();
 
     if (*quantidade + novo > 20){
-        printf("[!] Erro! Adicidonar %d item(s) passa dos limites de 20 componentes!", novo);
+        printf("[!] Erro! Adicionar %d item(s) passa do limite de 20 componentes!", novo);
         return;
         limparBufferEntrada();
     }
