@@ -1,125 +1,147 @@
-#include <stdlib.h>
-#include <string.h>
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 #include <time.h>
 
-#define QNT_MAX 4
-#define MAX_PECAS 5
+#define MAX_PIECES 10
 
 typedef struct {
-    char pecas[QNT_MAX];
-    int id[QNT_MAX];
-} Pecas;
-
+    char type;
+    int id;
+} Piece;
 typedef struct {
-    Pecas itens[MAX_PECAS];
+    Piece itens[MAX_PIECES];
     int start, end, total;
-} Fila;
+} Queue;
 
-void cleanBufferEntry() {
+void cleanBuffer() {
     int c;
     while ((c = getchar()) != '\n' && c != EOF);
 }
 
-void startqueue(Fila* f) {
-    f->start = 0;
-    f->end = 0;
-    f->total = 0;
+void initQueue(Queue* q) {
+    q->end = 0;
+    q->start = 0;
+    q->total = 0;
 }
 
-int emptyqueue(Fila *f) {
-    return f->total == 0;
+int isFull(Queue* q) { return q->total == MAX_PIECES; }
+int isEmpty(Queue* q) { return q->total == 0; }
+
+void insertQueue(Queue* q, Piece p) {
+    if (isFull(q)) return;
+    
+    q->itens[q->end] = p;
+    q->end = (q->end + 1) % MAX_PIECES;
+    q->total++;
 }
 
-void insertnewPecas(Fila* f, Pecas p) {
-    if (f->total == MAX_PECAS) {
-        printf("[!] Fila Cheia!\n");
+void removeQueue(Queue* q, Piece* p) {
+    if (isEmpty(q)) return;
+
+    *p = q->itens[q->start];
+    q->start = (q->start + 1) % MAX_PIECES;
+    q->total--;
+}
+
+void addRandomPiece(Queue* q) {
+    if (isFull(q)) {
+        printf("\n[!] ERRO: A fila esta cheia!\n");
         return;
     }
-    f->itens[f->end] = p;
-    f->end = (f->end + 1) % MAX_PECAS;
-    f->total++;
+    char types[] = {'I', 'O', 'T', 'S', 'Z', 'J', 'L'};
+    int r = rand() % 7;
+
+    Piece newP;
+    newP.type = types[r];
+    newP.id = r;
+    
+    insertQueue(q, newP);
 }
 
-void randompeca(Fila* f) {
-    char pieces[] = {'I', 'O', 'T', 'L'};
+
+void showQueue(Queue* q) {
+    printf("\n--- ESTADO DA FILA [%d/%d] ---\n", q->total, MAX_PIECES);
     
-    printf("\n========================\n");
-    printf("Inserir Pecas Aleatorias");
-    printf("\n========================\n");
-
-    int new_qty;
-    printf("Quantas pecas quer add? ");
-    if (scanf("%d", &new_qty) != 1) {
-        printf("[!] Erro: Numeros apenas.\n");
-        cleanBufferEntry();
-        return;
-    } cleanBufferEntry();
-
-    for (int i = 0; i < new_qty; i++) {
-        if (f->total < MAX_PECAS) {
-            int r = rand() % 4;
-            Pecas newP;
-            newP.pecas[0] = pieces[r];
-            newP.id[0] = r; 
-            insertnewPecas(f, newP);
-        } else {
-            printf("[!] Limite atingido na peca %d\n", i + 1);
-            break;
+    if (isEmpty(q)) {
+        printf("(Fila Vazia)");
+    } else {
+        int idx = q->start;
+        for (int i = 0; i < q->total; i++) {
+            printf("[%c] ", q->itens[idx].type);
+            idx = (idx + 1) % MAX_PIECES;
         }
     }
+    printf("\n------------------------------\n");
 }
 
-void removequeue(Fila *f, Pecas *p) {
-    if (emptyqueue(f)) {
-        printf("[!] Fila Vazia.\n");
+void peekNext(Queue* q) {
+    if (isEmpty(q)) {
+        printf("\n[!] Fila vazia.\n");
         return;
     }
-    *p = f->itens[f->start];
-    f->start = (f->start + 1) % MAX_PECAS;
-    f->total--;
-    printf("Peca removida: %c\n", p->pecas[0]);
+    printf("\n-> PROXIMA PECA: [%c] (ID: %d)\n", 
+            q->itens[q->start].type, q->itens[q->start].id);
 }
 
-void peekqueue(Fila *f) {
-    if (emptyqueue(f)) {
-        printf("Fila vazia.\n");
-        return;
+void fillQueue(Queue* q) {
+    printf("\n[*] Preenchendo fila...\n");
+    while (!isFull(q)) {
+        addRandomPiece(q);
     }
-    
-    printf("Fila atual: ");
-    int idx = f->start;
-    for (int i = 0; i < f->total; i++) {
-        printf("[%c | ID:%d] ", f->itens[idx].pecas[0], f->itens[idx].id[0]);
-        idx = (idx + 1) % MAX_PECAS;
-    }
-    printf("\nTotal: %d/%d\n", f->total, MAX_PECAS);
 }
 
 int main() {
+    Queue q;
+    Piece p;
+    initQueue(&q);
     srand(time(NULL));
-    Pecas p;
-    Fila f;
-    startqueue(&f);
-    int op;
-    
-    do {
-        printf("\n--- MENU TETRIS ---\n");
-        printf("1. Inserir | 2. Remover | 3. Listar | 0. Sair\n");
-        printf("Escolha: ");
 
+    int op = -1;
+    
+    printf("=== GERENCIADOR DE PECAS ===\n");
+
+    do {
+        printf("\n1. Iniciar/Completar | 2. Inserir | 3. Remover");
+        printf("\n4. Ver Proxima       | 5. Mostrar | 0. Sair");
+        printf("\nEscolha: ");
+        
         if (scanf("%d", &op) != 1) {
-            printf("[!] Digite um numero!\n");
-            cleanBufferEntry();
+            cleanBuffer();
+            printf("\n[!] Erro: Digite um numero.\n");
             continue;
-        } cleanBufferEntry();
+        }
+        cleanBuffer();
 
         switch (op) {
-            case 1: randompeca(&f); peekqueue(&f); break;
-            case 2: removequeue(&f, &p); break;
-            case 3: peekqueue(&f); break;
-            case 0: printf("Saindo...\n"); break;
-            default: printf("Opcao invalida.\n");
+            case 1: 
+                fillQueue(&q); 
+                showQueue(&q); 
+                break;
+            case 2: 
+                addRandomPiece(&q); 
+                showQueue(&q); 
+                break;
+            case 3: 
+                if (!isEmpty(&q)) {
+                    removeQueue(&q, &p);
+                    printf("\n[-] Removido: [%c]\n", p.type);
+                } else {
+                    printf("\n[!] Nada para remover.\n");
+                }
+                showQueue(&q); 
+                break;
+            case 4: 
+                peekNext(&q); 
+                break;
+            case 5: 
+                showQueue(&q); 
+                break;
+            case 0: 
+                printf("\nEncerrando...\n"); 
+                break;
+            default: 
+                printf("\n[!] Opcao invalida.\n");
         }
     } while (op != 0);
 
