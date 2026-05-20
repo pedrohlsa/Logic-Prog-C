@@ -145,9 +145,9 @@ int main() {
                     cleanBuffer();
                     
                     matriz2[linha-1][coluna-1] = valor;
-                    printf("✅ Valor %d armazenado em matriz2[%d][%d]\n", valor, linha-1, coluna-1);
+                    printf("Valor %d armazenado em matriz2[%d][%d]\n", valor, linha-1, coluna-1);
                 } else {
-                    printf("❌ Posicao invalida!\n");
+                    printf("[!] Posicao invalida!\n");
                 }
                 break;
                 
@@ -312,7 +312,7 @@ int main() {
     }
     free(matriz2);
     
-    printf("\n✅ Programa finalizado com sucesso!\n");
+    printf("\n Programa finalizado com sucesso!\n");
     
     return 0;
 }
