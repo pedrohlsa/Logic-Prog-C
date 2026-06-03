@@ -36,47 +36,24 @@ int main(){
         matriz2[i] = (int*)calloc(c2, sizeof(int));
     }
 
-    int ver1 = 1;
-    int nl1, nc1, nl2, nc2;
-    int contagem = 0;
-    
-    do {
-        printf("\n--- Entry %d of 4 ---\n", contagem + 1);
-        printf("Please insert line do you want to add ur num in matriz 1: ");
-        scanf("%d", &nl1);
-        printf("Please insert column do you want to add ur num in matriz 1: ");
-        scanf("%d", &nc1);
-
-        printf("Please insert line do you want to add ur num in matriz 2: ");
-        scanf("%d", &nl2);
-        printf("Please insert column do you want to add ur num in matriz 2: ");
-        scanf("%d", &nc2);
-
-        if(nl1 <= 0 || nl1 > l1 || nc1 <= 0 || nc1 > c1 || nl2 <= 0 || nl2 > l2 || nc2 <= 0 || nc2 > c2){
-            printf("Please, insert numbers within the limits of the matrices!\n");
-            continue;
-        } else {
-            nl1 = nl1 - 1; nc1 = nc1 - 1;
-            nl2 = nl2 - 1; nc2 = nc2 - 1;
-
-            int num1, num2;
-            printf("Num to insert in m1 on REAL position: [%d][%d]: ", nl1, nc1);
-            scanf("%d", &num1);
-            printf("Num to insert in m2 on REAL position: [%d][%d]: ", nl2, nc2);
-            scanf("%d", &num2);
-
-            matriz1[nl1][nc1] = num1;
-            matriz2[nl2][nc2] = num2;
-            contagem++;
-
-            if(contagem == 4){
-                ver1 = 0;
-            }
+    printf("\n--- Filling Matriz 1 ---\n");
+    for(int i = 0; i < l1; i++) {
+        for(int j = 0; j < c1; j++) {
+            printf("Insert value for Matriz 1 [%d][%d]: ", i + 1, j + 1);
+            scanf("%d", &matriz1[i][j]);
         }
-    } while(ver1 != 0);
+    }
+
+    printf("\n--- Filling Matriz 2 ---\n");
+    for(int i = 0; i < l2; i++) {
+        for(int j = 0; j < c2; j++) {
+            printf("Insert value for Matriz 2 [%d][%d]: ", i + 1, j + 1);
+            scanf("%d", &matriz2[i][j]);
+        }
+    }
     
-    printf("\nNow we will do the sum of diagonals of matrizs...\n");
-    
+    printf("\nNow we will do the sum of diagonals of matrices...\n");
+
     int sum1 = 0;
     int sum2 = 0;
 
@@ -87,6 +64,7 @@ int main(){
         sum2 += matriz2[i][i]; 
     }
 
+    printf("\n--- Matriz 1 ---\n");
     for(int i = 0; i < l1; i++){
         for(int j = 0; j < c1; j++){
             printf("%3d", matriz1[i][j]);
@@ -94,6 +72,7 @@ int main(){
         printf("\n");
     }
     
+    printf("\n--- Matriz 2 ---\n");
     for(int i = 0; i < l2; i++){
         for(int j = 0; j < c2; j++){
             printf("%3d", matriz2[i][j]);
@@ -101,8 +80,22 @@ int main(){
         printf("\n");
     }
     
-    printf("\nResults diagons of mat 1: [%d]", sum1);
-    printf("\nResults diagons of mat 2: [%d]\n", sum2);
+    printf("\nResults of main diagonals of mat 1: [%d]", sum1);
+    printf("\nResults of main diagonals of mat 2: [%d]\n", sum2);
+
+    int sum3 = 0;
+    int sum4 = 0;
+
+    for(int i = 0; i < l1; i++){
+        sum3 += matriz1[i][l1 - 1 - i];
+    }
+    
+    for(int i = 0; i < l2; i++){
+        sum4 += matriz2[i][l2 - 1 - i];
+    }
+
+    printf("\nResults of secondary diagonals of mat 1: [%d]", sum3);
+    printf("\nResults of secondary diagonals of mat 2: [%d]\n", sum4);
 
     for(int i = 0; i < l1; i++) free(matriz1[i]);
     free(matriz1);
