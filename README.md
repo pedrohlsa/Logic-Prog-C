@@ -69,6 +69,7 @@ Logic-Prog-C/
 ```bash
 gcc arquivo.c -o programa
 ./programa
+```
 
 ## 📬 Contato
 
