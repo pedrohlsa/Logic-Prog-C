@@ -22,7 +22,7 @@ Logic-Prog-C/
 
 | Projeto | Descrição | Status |
 |---------|-----------|--------|
-| **Tic-Tac-Toe** | Jogo da velha com interface no terminal | 🟨 incompleto |
+| **Tic-Tac-Toe** | Jogo da velha com interface no terminal | 🟨 Incompleto |
 | **Tetris** | Jogo Tetris em C | ✅ Completo |
 | **Battleship** | Batalha Naval | ✅ Completo |
 | **Chess Game** | Xadrez completo | ✅ Completo |
