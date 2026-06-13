@@ -1,27 +1,80 @@
-# Logic-Prog-C
+# 🧠 Logic Programming in C
 
-Repositório dedicado aos meus estudos em Linguagem C, focado em lógica de programação e estruturas de dados.
+[![C](https://img.shields.io/badge/C-00599C?style=for-the-badge&logo=c&logoColor=white)](https://en.wikipedia.org/wiki/C_(programming_language))
+[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/pedrohlsa)
 
-## Descrição dos Projetos
+## 📚 Sobre o Repositório
 
-### Basic Algorithms
-- Fundamentos e exercícios de fixação de lógica, matriz, struct e pointers.
+Este repositório contém meus estudos e projetos em **C**, desde algoritmos básicos até projetos mais complexos como jogos e sistemas de gerenciamento.
 
-### Library-CRUD
-Sistema de gerenciamento de acervo focado em operações fundamentais de persistência em memória e manipulação de registros.
--Library.c: Implementação de um CRUD, utilizando Estruturas para agrupamento de dados. Tratamento de buffer de entrada. Uso de strcspn para limpeza de caracteres de nova linha.
+---
 
-### Battleship-Game
-Focado no desenvolvimnto lógica e matrizes bidimensionais.
-- tabuleiro-estatico.c: Primeiros testes com matrizes bidimensionais
-- posicionamento-simples.c: Implementação de entrada de dados e conversão de coordenadas (A-J para índices 0-9).
-- posicionamento-com-validacao.c: Criação de loops para simulação de posicionamento, garantindo que navios não se sobreponham e respeitem os limites do tabuleiro.
-- prototipo-habilidades.c: Estudo de padrões geométricos (Cone, Cruz e Octaedro) aplicados sobre matrizes.
-- main-batalha-naval.c: Versão completa com menu interativo, regras, posicionamento em múltiplas direções e habilidades especiais com segurança de borda.
+## 📁 Estrutura do Repositório
 
-### Chess Project
-Focado no desenvolvimento de lógica para simuladores de xadrez.
-- xadrez_recursivo.c: Simula a movimentação de peças usando o conceito de recursividade para otimizar chamadas.
-- xadrez_simulador.c: Simulador interativo via terminal com menus de navegação e estruturas de repetição (do-while, while, for).
-- simulador_xadrez2.0.c: Melhor uso da função recursividade, evitando muitas repetições no código. Com a função do-while com uma variável bool, repetindo o loop ate o usuario escolher sair do jogo.
-   
+Logic-Prog-C/
+├── Basic-Algorithms/ # Algoritmos fundamentais
+├── Projects/ # Projetos completos
+└── Sandbox/ # Códigos de teste e desafios
+
+---
+
+## Projects (Projetos Completos)
+
+| Projeto | Descrição | Status |
+|---------|-----------|--------|
+| **Tic-Tac-Toe** | Jogo da velha com interface no terminal | 🟨 incompleto |
+| **Tetris** | Jogo Tetris em C | ✅ Completo |
+| **Battleship** | Batalha Naval | ✅ Completo |
+| **Chess Game** | Xadrez completo | ✅ Completo |
+| **War Game** | Jogo de estratégia | ✅ Completo |
+| **Library CRUD** | Sistema de biblioteca (Create, Read, Update, Delete) | ✅ Completo |
+| **Inventory System** | Sistema de inventário | ✅ Completo |
+
+---
+
+## Basic-Algorithms
+
+| Pasta | Conteúdo |
+|-------|----------|
+| `MemoryManagement/` | malloc, calloc, realloc, free |
+| `matriz/` | Matrizes bidimensionais, operações |
+| `struct/` | Structs, aninhamento, arrays de structs |
+| `vetor/` | Vetores dinâmicos, realloc |
+| `stack-heap/` | Fila (queue), pilha (stack) |
+| `search-sequencial-binary/` | Busca sequencial e binária |
+
+---
+
+## Sandbox (Desafios e Testes)
+
+| Arquivo | Descrição |
+|---------|-----------|
+| `Matriz_Elem_Calc.c` | Calculadora de elementos da matriz |
+| `Matriz_Diagonal_Calc.c` | Soma das diagonais principal/secundária |
+| `Transpos_Dyn_Matriz.c` | Transposição de matriz dinâmica |
+| `Fibonacci.c` | Sequência de Fibonacci |
+| `Fatoracao_Primos.c` | Fatoração de números primos |
+| `Num_Primos_Check.c` | Verificação de números primos |
+| `Invert_Prc.c` | Inversão com ponteiros |
+| `Calculadora_Menu.c` | Calculadora com menu interativo |
+| `Conversão-B-H-O.c` | Conversão Binário/Hexadecimal/Octal |
+| `Forca.c` | Jogo da forca |
+| `Lista_Encadeada_Perversa.c` | Lista encadeada personalizada |
+
+---
+
+## 🚀 Como Compilar
+
+### Compilar qualquer arquivo individual:
+```bash
+gcc arquivo.c -o programa
+./programa
+
+## 📬 Contato
+
+- GitHub: [@pedrohlsa](https://github.com/pedrohlsa)
+- Email: [stguts25@gmail.com]
+
+---
+
+⭐ Se gostou do repositório, deixa uma estrela!
