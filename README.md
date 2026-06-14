@@ -18,7 +18,7 @@ Logic-Prog-C/
 
 ---
 
-## Projects (Projetos Completos)
+## Projects
 
 | Projeto | Descrição | Status |
 |---------|-----------|--------|
